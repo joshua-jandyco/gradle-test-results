@@ -6,6 +6,9 @@ import org.gradle.api.tasks.testing.TestDescriptor;
 import org.gradle.api.tasks.testing.TestListener;
 import org.gradle.api.tasks.testing.TestResult;
 
+/**
+ * Collects the test results for each test task run
+ */
 class TestResultsListener implements TestListener {
     TestCounts counts;
 
@@ -14,16 +17,16 @@ class TestResultsListener implements TestListener {
     }
 
     @Override
-    public void beforeSuite(TestDescriptor suite) { }
-
-    @Override
     public void afterSuite(TestDescriptor suite, TestResult result) {
-        counts.wasRun = true
+        counts.taskWasRun = true
         String className = suite.getClassName();
-        if (className != null) {
+        if (className != null) { //Ignore Gradle Worker
             counts.addResult(result)
         }
     }
+
+    @Override
+    public void beforeSuite(TestDescriptor suite) { }
 
     @Override
     public void beforeTest(TestDescriptor test) { }
@@ -32,31 +35,3 @@ class TestResultsListener implements TestListener {
     public void afterTest(TestDescriptor test, TestResult result) {}
 }
 
-class TestCounts {
-    boolean wasRun = false;
-    String type
-
-    long failed = 0
-    long passed  = 0
-    long skipped = 0
-
-    public TestCounts(String type) {
-        this.type = type
-    }
-
-    def addResult(TestResult result) {
-        failed += result.getFailedTestCount()
-        passed += result.getSuccessfulTestCount()
-        skipped += result.getSkippedTestCount()
-    }
-
-    def addCounts(TestCounts counts) {
-        failed += counts.failed
-        passed += counts.passed
-        skipped += counts.skipped
-    }
-
-    def total() {
-        return failed + passed
-    }
-}
