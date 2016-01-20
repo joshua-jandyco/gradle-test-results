@@ -37,19 +37,19 @@ class BuildListenerTest extends Specification {
         when: "buildFinished called"
         listener.buildFinished(null)
 
-        then:
+        then: "The test results header is printed"
         1 * listener.logger.lifecycle() {
             it == "\n" + "-".multiply(80) + "\nTEST RESULTS\n" + "-".multiply(80)
         }
 
-        then:
+        then: "Test results for each task type are printed"
         1 * listener.logger.lifecycle("test: Tests Run: 33, Failures: 22, Skipped: 34")
         1 * listener.logger.lifecycle("integTest: Tests Run: 90, Failures: 50, Skipped: 60")
 
-        then:
+        then: "The separator is printed"
         1 * listener.logger.lifecycle("-".multiply(80))
 
-        then:
+        then: "Test totals are printed"
         1 * listener.logger.lifecycle("Total: Tests Run: 123, Failures: 72, Skipped: 94")
     }
 }
