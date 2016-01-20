@@ -16,6 +16,8 @@ class TestCounts {
     long passed  = 0
     long skipped = 0
 
+    public TestCounts() {}
+
     /**
      * Create a test count object to represent counts for a task with the provided name
      *
@@ -23,6 +25,14 @@ class TestCounts {
      */
     public TestCounts(String taskName) {
         this.taskName = taskName
+    }
+
+    TestCounts(wasRun, name, passed, failed, skipped) {
+        this.taskWasRun = wasRun
+        this.taskName = name
+        this.passed = passed
+        this.failed = failed
+        this.skipped = skipped
     }
 
     /*

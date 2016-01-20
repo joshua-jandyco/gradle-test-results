@@ -28,11 +28,11 @@ class BuildListener implements org.gradle.BuildListener {
     def combineTestCountsByType(testCounts) {
         def results = [:]
         testCounts.each {
-            if (it.wasRun) {
-                if (!results.keySet().contains(it.type)) {
-                    results[it.type] = it
+            if (it.taskWasRun) {
+                if (!results.keySet().contains(it.taskName)) {
+                    results[it.taskName] = it
                 } else {
-                    results[it.type].addCounts(it)
+                    results[it.taskName].addCounts(it)
                 }
             }
         }
@@ -51,7 +51,9 @@ class BuildListener implements org.gradle.BuildListener {
     }
 
     def outputTestCount(type, counts) {
-        logger.lifecycle("$type: Tests Run: ${counts.total()},  Failures: ${counts.failed},  Skipped: ${counts.skipped}")
+        def message = "$type: Tests Run: ${counts.totalTestsRun()}, "
+        message += "Failures: ${counts.failed}, Skipped: ${counts.skipped}"
+        logger.lifecycle(message)
 
     }
 
