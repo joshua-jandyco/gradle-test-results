@@ -1,9 +1,10 @@
 plugins {
+  id "com.gradle.plugin-publish" version "0.9.3"
   id "groovy"
   id "jacoco"
   id "maven-publish"
   id "nebula.integtest" version "3.0.3"
-  id "com.gradle.plugin-publish" version "0.9.3"
+  id "org.ajoberstar.grgit" version "1.4.0-rc.1"
 }
 
 project.ext {
@@ -14,10 +15,37 @@ project.ext {
 
 group "com.jandyco"
 description  "Prints the summary of run, failed and skipped tests at the end of the build"
-version "1.0.0"
+version "0.1.0"
 
 repositories {
     jcenter()
+}
+
+dependencies {
+    compile gradleApi()
+    compile localGroovy()
+
+    testCompile ("org.spockframework:spock-core:1.0-groovy-2.4") {
+         exclude module: 'groovy-all'
+    }
+    testCompile 'cglib:cglib:3.2.0'
+}
+
+facets {
+    funcTest {
+        parentSourceSet = 'main'
+        testTaskName = 'funcTest'
+    }
+}
+
+jacoco {
+    toolVersion = "0.7.5.201505241946"
+}
+
+jacocoTestReport {
+    reports {
+        html.enabled true
+    }
 }
 
 publishing {
@@ -53,7 +81,7 @@ pluginBundle {
     vcsUrl = project.website
 
     description = project.description
-    tags = [tests]
+    tags = ["tests"]
 
     plugins {
         testResultsPlugin {
@@ -64,30 +92,47 @@ pluginBundle {
     }
 }
 
+import org.ajoberstar.grgit.Grgit
 
-dependencies {
-    compile gradleApi()
-    compile localGroovy()
+ext.repo = Grgit.open(rootDir)
 
-    testCompile ("org.spockframework:spock-core:1.0-groovy-2.4") {
-         exclude module: 'groovy-all'
+task createTag {
+    description = 'Creates repository tag with current project version.'
+    ext.tagName = "v${project.version}"
+
+    doLast {
+        logger.quiet "Creating tag '$tagName'."
+
+        // Remove potentially existing tag
+        repo.tag.remove(names: [tagName])
+
+        // Create tag
+        repo.tag.add {
+            name = tagName
+            message = "Version ${project.version}"
+        }
     }
-    testCompile 'cglib:cglib:3.2.0'
 }
 
-facets {
-    funcTest {
-        parentSourceSet = 'main'
-        testTaskName = 'funcTest'
+task pushTag {
+    description = 'Pushes tag to remote repository.'
+    dependsOn createTag
+
+    doLast {
+        logger.quiet "Pushing tag '$createTag.tagName' to remote."
+
+        repo.push {
+            refsOrSpecs = [createTag.tagName]
+        }
     }
 }
 
-jacoco {
-    toolVersion = "0.7.5.201505241946"
+task tag {
+    dependsOn pushTag
+    mustRunAfter publishPlugins
 }
 
-jacocoTestReport {
-    reports {
-        html.enabled true
-    }
+task release {
+    description = 'Publishes artifacts to Gradle Plugin Portal and tags repository with current project version.'
+    dependsOn assemble, publishPlugins, tag
 }

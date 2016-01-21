@@ -39,7 +39,7 @@ buildscripts {
         }
     }
     dependencies {
-        classpath 'com.jandyco:test-results:1.0.0'
+        classpath 'com.jandyco:test-results:0.1.0'
     }
 }
 ```
@@ -47,7 +47,7 @@ buildscripts {
 For Gradle 2.0+, you can use the Plugins DSL:
 ```gradle
 plugins {
-    id "com.jandyco.test-results" version "1.0.0"
+    id "com.jandyco.test-results" version "0.1.0"
 }
 ```
 
