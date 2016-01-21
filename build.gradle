@@ -6,6 +6,12 @@ plugins {
   id "com.gradle.plugin-publish" version "0.9.3"
 }
 
+project.ext {
+    longName = "Gradle Test Results Plugin"
+    vcs = "github.com/joshua-jandyco/gradle-test-results"
+    website = "https://${project.vcs}"
+}
+
 group "com.jandyco"
 description  "Prints the summary of run, failed and skipped tests at the end of the build"
 version "1.0.0"
@@ -23,15 +29,15 @@ publishing {
             from components.java
             pom.withXml {
                 def root = asNode()
-                root.appendNode('name', 'Gradle Test Results Plugin')
+                root.appendNode('name', project.longName)
                 root.appendNode('description', project.description)
-                root.appendNode('url', 'https://github.com/joshua-jandyco/gradle-test-results')
+                root.appendNode('url', project.website)
                 root.appendNode('inceptionYear', '2016')
 
                 def scm = root.appendNode("scm")
-                scm.appendNode('url', 'https://github.com/joshua-jandyco/gradle-test-results')
-                scm.appendNode('connection', 'scm:https://github.com/joshua-jandyco/gradle-test-results.git')
-                scm.appendNode('developerConnection', 'scm:git://github.com/joshua-jandyco/gradle-test-results.git')
+                scm.appendNode('url', project.website)
+                scm.appendNode('connection', "scm:${project.website}.git")
+                scm.appendNode('developerConnection', "scm:git://${project.vcs}.git")
 
                 def license = root.appendNode("licenses").appendNode("license")
                 license.appendNode('name', 'The Apache Software License, Version 2.0')
@@ -41,6 +47,23 @@ publishing {
         }
     }
 }
+
+pluginBundle {
+    website = project.website
+    vcsUrl = project.website
+
+    description = project.description
+    tags = [tests]
+
+    plugins {
+        testResultsPlugin {
+            id = "${project.group}.${project.name}"
+            displayName = project.longName
+            version = project.version
+        }
+    }
+}
+
 
 dependencies {
     compile gradleApi()
