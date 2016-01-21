@@ -1,7 +1,7 @@
 Test Results Plugin
 =====================
 [![Build Image](https://snap-ci.com/joshua-jandyco/gradle-test-results/branch/master/build_image)](https://snap-ci.com/joshua-jandyco/gradle-test-results/branch/master)
-[![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/nebula-project-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Apache 2.0](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Prints a summary of run, failed and skipped tests at the end of the build.
 The test results summary currently shows:
