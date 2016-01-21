@@ -8,6 +8,7 @@ plugins {
 
 group "com.jandyco"
 description  "Prints the summary of run, failed and skipped tests at the end of the build"
+version "1.0.0"
 
 repositories {
     mavenCentral()
