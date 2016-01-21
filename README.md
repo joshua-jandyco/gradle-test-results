@@ -30,16 +30,20 @@ Put the following in your ~/.gradle/init.gradle so that it is available for all
 of your projects.
 
 ```gradle
-apply plugin: 'com.jandyco.test-results'
-...
-buildscripts {
+initscript {
     repositories {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
     }
     dependencies {
-        classpath 'com.jandyco:test-results:0.1.0'
+        classpath "gradle.plugin.com.jandyco:test-results:0.1.0"
     }
+}
+
+allprojects {
+    // Must use fully qualified class name due to bug in init script apply plugin
+    // http://stackoverflow.com/questions/14595606/cannot-apply-an-external-plugin-in-a-gradle-init-script-github-project-included
+    apply plugin: com.jandyco.TestResultsPlugin
 }
 ```
