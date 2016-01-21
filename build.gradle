@@ -11,7 +11,7 @@ description  "Prints the summary of run, failed and skipped tests at the end of 
 version "1.0.0"
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 publishing {
