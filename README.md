@@ -1,5 +1,7 @@
 Test Results Plugin
 =====================
+[![Build Image](https://snap-ci.com/joshua-jandyco/gradle-test-results/branch/master/build_image)](https://snap-ci.com/joshua-jandyco/gradle-test-results/branch/master)
+
 Prints a summary of run, failed and skipped tests at the end of the build.
 The test results summary currently shows:
 
