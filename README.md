@@ -7,6 +7,7 @@ The test results summary currently shows:
 * Total of all tests run
 
 Example Output:
+
     ...
     BUILD SUCCESSFUL
 
