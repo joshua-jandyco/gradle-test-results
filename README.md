@@ -47,7 +47,7 @@ buildscripts {
 For Gradle 2.0+, you can use the Plugins DSL:
 ```gradle
 plugins {
-    id "org.jandyco.test-results" version "1.0.0"
+    id "com.jandyco.test-results" version "1.0.0"
 }
 ```
 
