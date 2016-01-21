@@ -41,7 +41,7 @@ initscript {
     }
 }
 
-allprojects {
+rootProject {
     // Must use fully qualified class name due to bug in init script apply plugin
     // http://stackoverflow.com/questions/14595606/cannot-apply-an-external-plugin-in-a-gradle-init-script-github-project-included
     apply plugin: com.jandyco.TestResultsPlugin
