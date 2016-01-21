@@ -26,22 +26,25 @@ Usage
 Put the following in your ~/.gradle/init.gradle so that it is available for all
 of your projects.
 
-    apply plugin: 'com.jandyco.test-results'
-    ...
-    buildscripts {
-        repositories {
-            maven {
-              url "https://plugins.gradle.org/m2/"
-            }
-        }
-        dependencies {
-            classpath 'org.jandyco:test-results:1.0.0'
+```gradle
+apply plugin: 'com.jandyco.test-results'
+...
+buildscripts {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
         }
     }
+    dependencies {
+        classpath 'org.jandyco:test-results:1.0.0'
+    }
+}
+```
 
 For Gradle 2.0+, you can use the Plugins DSL:
-
-    plugins {
-        id "org.jandyco.test-results" version "1.0.0"
-    }
+```gradle
+plugins {
+    id "org.jandyco.test-results" version "1.0.0"
+}
+```
 
